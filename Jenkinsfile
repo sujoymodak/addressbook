@@ -15,6 +15,10 @@ pipeline {
             steps {
                 sh 'mvn -B package'
             }
+        stage ('docker build') {
+            steps {
+                sh 'docker build -t devopsxprts/addressbook:latest .'
+            }
         }
     }
 }

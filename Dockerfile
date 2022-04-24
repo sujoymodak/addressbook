@@ -1,2 +1,3 @@
-FROM bitnami/tomcat
-COPY target/addressbook-2.0.war /app/addressbook.war
+FROM bitnami/tomcat:9.0
+ENV TOMCAT_PASSWORD=password
+COPY target/addressbook-2.0.war /opt/bitnami/tomcat/webapps/addressbook.war

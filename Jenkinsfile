@@ -20,7 +20,7 @@ pipeline {
             steps {
                 sh 'sudo docker build -t devopsxprts/addressbook .'
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'pass', usernameVariable: 'user')]) {
-                    sh 'sudo docker login -u $user --password-stdin $pass'
+                    sh 'sudo docker login --username $user --password-stdin $pass'
                     sh 'sudo docker push devopsxprts/addressbook'
                 }
             }

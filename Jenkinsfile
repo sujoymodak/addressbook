@@ -18,7 +18,7 @@ pipeline {
         }
         stage ('build and push docker build to dockerhub') {
             steps {
-                withDockerRegistry(credentialsId: 'dockerhub') {
+                withDockerRegistry(credentialsId: 'dockerhub', url: 'https://index.docker.io/v1/') {
                     script {
                         def myimage = docker.build 
                         myimage.push

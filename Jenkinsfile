@@ -16,9 +16,14 @@ pipeline {
                 sh 'mvn -B package'
             }
         }
-        stage ('docker build') {
+        stage ('build and push docker build to dockerhub') {
             steps {
-                sh 'sudo docker build -t devopsxprts/addressbook:latest .'
+                withDockerRegistry(credentialsId: 'dockerhub') {
+                    script {
+                        def myimage = docker.build 
+                        myimage.push
+                    }
+                }
             }
         }
     }

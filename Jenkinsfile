@@ -18,7 +18,7 @@ pipeline {
         }
         stage ('docker build') {
             steps {
-                sh 'docker build -t devopsxprts/addressbook:latest .'
+                sh 'sudo docker build -t devopsxprts/addressbook:latest .'
             }
         }
     }

@@ -16,25 +16,25 @@ pipeline {
                 sh 'mvn -B package'
             }
         }
-//         stage ('build and psh docker image') {
-//             steps {
-//                 sh 'sudo docker build -t devopsxprts/addressbook .'
-//                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'pass', usernameVariable: 'user')]) {
-//                     sh 'sudo docker login --username $user --password-stdin $pass'
-//                     sh 'sudo docker push devopsxprts/addressbook'
-//                 }
-//             }
-//         }
-        stage ('build and push docker build to dockerhub') {
+        stage ('build and psh docker image') {
             steps {
-                withDockerRegistry(credentialsId: 'dockerhub', url: 'https://index.docker.io/v1/') {
-                    script {
-                        def myimage = docker.build("devopsxprts/addressbook:latest")
-                        myimage.push()
-                    }
+                sh 'sudo docker build -t devopsxprts/addressbook .'
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'pass', usernameVariable: 'user')]) {
+                    sh 'sudo docker login --username ${env.user} --password-stdin ${env.pass}'
+                    sh 'sudo docker push devopsxprts/addressbook'
                 }
             }
         }
+//         stage ('build and push docker build to dockerhub') {
+//             steps {
+//                 withDockerRegistry(credentialsId: 'dockerhub', url: 'https://index.docker.io/v1/') {
+//                     script {
+//                         def myimage = docker.build("devopsxprts/addressbook:latest")
+//                         myimage.push()
+//                     }
+//                 }
+//             }
+//         }
          stage ('kubernetes deployment') {
             steps {
                 sh 'kubectl apply -f deployment.yaml'
